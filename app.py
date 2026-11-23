@@ -1,0 +1,106 @@
+
+import streamlit as st
+import pandas as pd
+
+from database import (
+    initialiser_base,
+    ajouter_depense,
+    recuperer_depenses,
+    supprimer_depense
+)
+
+# Initialiser la base de données
+initialiser_base()
+
+# Familles déjà créées en interne
+familles = {
+    "Dupont": 4,
+    "Martin": 2,
+    "Bernard": 3
+}
+
+# Titre de l'application
+st.title("🎄 Dépenses de Noël")
+
+# --------------------------------
+# AJOUTER UNE DÉPENSE
+# --------------------------------
+
+st.subheader("Ajouter une dépense")
+
+titre = st.text_input("Intitulé de la dépense")
+
+famille = st.selectbox(
+    "Famille ayant payé",
+    familles.keys()
+)
+
+montant = st.number_input(
+    "Montant (€)",
+    min_value=0.01,
+    step=1.0
+)
+
+if st.button("Ajouter la dépense"):
+
+    if titre.strip():
+
+        ajouter_depense(titre, montant, famille)
+
+        st.success("Dépense ajoutée !")
+
+        st.rerun()
+
+    else:
+        st.error("Veuillez renseigner un intitulé.")
+
+
+# --------------------------------
+# AFFICHER LES DÉPENSES
+# --------------------------------
+
+st.subheader("Liste des dépenses")
+
+# Récupérer les dépenses depuis SQLite
+depenses = recuperer_depenses()
+
+# Transformer les données en tableau
+donnees = []
+
+for depense in depenses:
+    donnees.append({
+        "Titre": depense[1],
+        "Famille": depense[3],
+        "Montant (€)": depense[2]
+    })
+
+# Créer le DataFrame
+df = pd.DataFrame(donnees)
+
+# Afficher le tableau
+st.dataframe(df, use_container_width=True)
+
+
+# --------------------------------
+# SUPPRIMER UNE DÉPENSE
+# --------------------------------
+
+st.subheader("Supprimer une dépense")
+
+for depense in depenses:
+
+    col1, col2 = st.columns([4, 1])
+
+    with col1:
+        st.write(
+            f"{depense[1]} - {depense[2]:.2f} € - {depense[3]}"
+        )
+
+    with col2:
+        if st.button("Supprimer", key=f"supprimer_{depense[0]}"):
+
+            supprimer_depense(depense[0])
+
+            st.success("Dépense supprimée !")
+
+            st.rerun()
