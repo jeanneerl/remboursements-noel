@@ -54,7 +54,7 @@ date_depense = st.date_input(
 
 if st.button("Ajouter la dépense"):
 
-    if titre.strip() and famille is not None else "":
+    if titre.strip() and famille is not None :
 
         ajouter_depense(titre, montant, famille, date_depense)
 
@@ -108,7 +108,7 @@ for depense in depenses:
             f'{depense["description"]} - '
             f'{float(depense["montant"]):.2f} € - '
             f'{depense["famille"]} - '
-            f'{depense["date_depense"]}' if depense["date_depense"] is not None
+            f'{depense["date_depense"]}' if depense["date_depense"] is not None else ""
         )
 
     with col2:
