@@ -12,13 +12,13 @@ def connexion():
 
 
 # Ajouter une dépense
-def ajouter_depense(description, montant, famille):
+def ajouter_depense(description, montant, famille, date_depense=None):
     supabase = connexion()
-
     supabase.table("depenses").insert({
         "description": description,
         "montant": float(montant),
-        "famille": famille
+        "famille": famille,
+        "date_depense": date_depense
     }).execute()
 
 
