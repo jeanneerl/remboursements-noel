@@ -12,7 +12,7 @@ from database import (
 familles = {
     "Ace/Seb/Arthur/Jeanne": 4,
     "Monique/JY": 2,
-    "Béné/Gaël/Garance": 3,
+    "Béné/Gaël/Garance/Mattéo": 4,
     "JP/Lulu": 2,
     "Youn/Natacha/Lou/Nina": 2,
     "Alan/Julie/Camille/Liam": 3,
@@ -108,6 +108,7 @@ for depense in depenses:
             f'{depense["description"]} - '
             f'{float(depense["montant"]):.2f} € - '
             f'{depense["famille"]}'
+            f'{depense["date_depense"]}'
         )
 
     with col2:
