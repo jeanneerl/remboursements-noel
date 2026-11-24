@@ -107,10 +107,10 @@ for depense in depenses:
         st.write(
             f'{depense["description"]} - '
             f'{float(depense["montant"]):.2f} € - '
-            f'{depense["famille"]} - '
+            f'{depense["famille"]}'
         )
         if depense["date_depense"] is not None :
-            st.write(f'{depense["date_depense"]} - ')
+            st.write(f' - {depense["date_depense"]}')
     
     with col2:
         if st.button("Supprimer", key=f'supprimer_{depense["id"]}'):
