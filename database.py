@@ -1,57 +1,45 @@
-import sqlite3
 
-# Connexion à la base de données
+import streamlit as st
+from supabase import create_client
+
+
+# Connexion à Supabase
 def connexion():
-    return sqlite3.connect("depenses.db")
+    url = st.secrets["SUPABASE_URL"]
+    cle = st.secrets["SUPABASE_KEY"]
+    print("URL utilisée :", url)
+    return create_client(url, cle)
 
 
-# Création de la table
-def initialiser_base():
-    conn = connexion()
-    curseur = conn.cursor()
-
-    curseur.execute("""
-        CREATE TABLE IF NOT EXISTS depenses (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            description TEXT NOT NULL,
-            montant REAL NOT NULL,
-            famille TEXT NOT NULL
-        )
-    """)
-
-    conn.commit()
-    conn.close()
-
+# Ajouter une dépense
 def ajouter_depense(description, montant, famille):
-    conn = connexion()
-    curseur = conn.cursor()
+    supabase = connexion()
 
-    curseur.execute("""
-        INSERT INTO depenses (description, montant, famille)
-        VALUES (?, ?, ?)
-    """, (description, montant, famille))
+    supabase.table("depenses").insert({
+        "description": description,
+        "montant": float(montant),
+        "famille": famille
+    }).execute()
 
-    conn.commit()
-    conn.close()
 
+# Récupérer toutes les dépenses
 def recuperer_depenses():
-    conn = connexion()
-    curseur = conn.cursor()
+    supabase = connexion()
 
-    curseur.execute("SELECT * FROM depenses")
-    depenses = curseur.fetchall()
-
-    conn.close()
-    return depenses
-
-def supprimer_depense(id_depense):
-    conn = connexion()
-    curseur = conn.cursor()
-
-    curseur.execute(
-        "DELETE FROM depenses WHERE id = ?",
-        (id_depense,)
+    resultat = (
+        supabase.table("depenses")
+        .select("*")
+        .order("id")
+        .execute()
     )
 
-    conn.commit()
-    conn.close()
+    return resultat.data
+
+
+# Supprimer une dépense
+def supprimer_depense(id_depense):
+    supabase = connexion()
+
+    supabase.table("depenses").delete().eq(
+        "id", id_depense
+    ).execute()
