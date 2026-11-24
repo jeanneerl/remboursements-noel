@@ -3,7 +3,6 @@ import streamlit as st
 import pandas as pd
 
 from database import (
-    initialiser_base,
     ajouter_depense,
     recuperer_depenses,
     supprimer_depense
