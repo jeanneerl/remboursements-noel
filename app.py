@@ -50,11 +50,17 @@ montant = st.number_input(
     step=1.0
 )
 
+date_depense = st.date_input(
+    "Date de la dépense",
+    value=None,
+    format="DD/MM/YYYY"
+)
+
 if st.button("Ajouter la dépense"):
 
     if titre.strip() and famille is not None:
 
-        ajouter_depense(titre, montant, famille)
+        ajouter_depense(titre, montant, famille, date_depense)
 
         st.success("Dépense ajoutée !")
 
