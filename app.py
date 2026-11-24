@@ -9,9 +9,6 @@ from database import (
     supprimer_depense
 )
 
-# Initialiser la base de données
-initialiser_base()
-
 # Familles déjà créées en interne
 familles = {
     "Ace/Seb/Arthur/Jeanne": 4,
