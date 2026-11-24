@@ -39,7 +39,9 @@ titre = st.text_input("Intitulé de la dépense")
 
 famille = st.selectbox(
     "Famille ayant payé",
-    familles.keys()
+    familles.keys(),
+    index=None,
+    placeholder="Choisir une famille"
 )
 
 montant = st.number_input(
@@ -50,7 +52,7 @@ montant = st.number_input(
 
 if st.button("Ajouter la dépense"):
 
-    if titre.strip():
+    if titre.strip() and famille is not None:
 
         ajouter_depense(titre, montant, famille)
 
