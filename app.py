@@ -14,10 +14,17 @@ initialiser_base()
 
 # Familles déjà créées en interne
 familles = {
-    "Dupont": 4,
-    "Martin": 2,
-    "Bernard": 3
+    "Ace/Seb/Arthur/Jeanne": 4,
+    "Monique/JY": 2,
+    "Béné/Gaël/Garance": 3,
+    "JP/Lulu": 2,
+    "Youn/Natacha/Lou/Nina": 2,
+    "Alan/Julie/Camille/Liam": 3,
+    "Christiane/Philipe": 2,
+    "Anaïs/Charles/Swann": 2,
+    "Quentin/Camille": 2
 }
+
 
 # Titre de l'application
 st.title("🎄 Dépenses de Noël")
