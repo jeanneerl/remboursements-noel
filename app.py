@@ -80,9 +80,10 @@ donnees = []
 
 for depense in depenses:
     donnees.append({
-        "Titre": depense[1],
-        "Famille": depense[3],
-        "Montant (€)": depense[2]
+        "Titre": depense["description"],
+        "Famille": depense["famille"],
+        "Montant (€)": float(depense["montant"]),
+        "Date": depense["date_depense"] or ""
     })
 
 # Créer le DataFrame
@@ -104,13 +105,15 @@ for depense in depenses:
 
     with col1:
         st.write(
-            f"{depense[1]} - {depense[2]:.2f} € - {depense[3]}"
+            f'{depense["description"]} - '
+            f'{float(depense["montant"]):.2f} € - '
+            f'{depense["famille"]}'
         )
 
     with col2:
-        if st.button("Supprimer", key=f"supprimer_{depense[0]}"):
+        if st.button("Supprimer", key=f'supprimer_{depense["id"]}'):
 
-            supprimer_depense(depense[0])
+            supprimer_depense(depense["id"])
 
             st.success("Dépense supprimée !")
 
